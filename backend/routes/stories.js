@@ -7,28 +7,31 @@ const PAGE_SIZE = 10;
 async function fetchStories({ page = 1, subreddit = null }) {
 	const offset = (page - 1) * PAGE_SIZE;
 	if (!process.env.DATABASE_URL) {
-		return [];
+		return { items: [], hasNext: false };
 	}
+	const limit = PAGE_SIZE + 1;
+	let rows;
 	if (subreddit) {
-		const { rows } = await runQuery(
+		({ rows } = await runQuery(
 			`SELECT id, reddit_id, title, author, subreddit, url, score, num_comments, created_at, content, slug
 			 FROM stories
 			 WHERE subreddit = $1
 			 ORDER BY created_at DESC
 			 LIMIT $2 OFFSET $3`,
-			[subreddit, PAGE_SIZE, offset]
-		);
-		return rows;
+			[subreddit, limit, offset]
+		));
 	} else {
-		const { rows } = await runQuery(
+		({ rows } = await runQuery(
 			`SELECT id, reddit_id, title, author, subreddit, url, score, num_comments, created_at, content, slug
 			 FROM stories
 			 ORDER BY created_at DESC
 			 LIMIT $1 OFFSET $2`,
-			[PAGE_SIZE, offset]
-		);
-		return rows;
+			[limit, offset]
+		));
 	}
+	const hasNext = rows.length > PAGE_SIZE;
+	const items = hasNext ? rows.slice(0, PAGE_SIZE) : rows;
+	return { items, hasNext };
 }
 
 async function fetchStoryBySlug(slug) {
@@ -44,15 +47,15 @@ async function fetchStoryBySlug(slug) {
 }
 
 router.get('/', async (req, res) => {
-	const page = 1;
+	const page = Math.max(parseInt(req.query.page || '1', 10), 1);
 	const subreddit = req.query.subreddit || null;
-	const stories = await fetchStories({ page, subreddit });
-	res.set('Vary', 'HX-Request');
+	const { items, hasNext } = await fetchStories({ page, subreddit });
 	res.render('index', {
 		pageTitle: res.locals.site.name,
 		pageDescription: 'Fresh stories aggregated from Reddit subreddits',
-		stories,
+		stories: items,
 		page,
+		hasNext,
 		subreddit,
 	});
 });
@@ -70,13 +73,7 @@ router.get('/story/:slug', async (req, res) => {
 	});
 });
 
-router.get('/load-more-stories', async (req, res) => {
-	const page = Math.max(parseInt(req.query.page || '2', 10), 1);
-	const subreddit = req.query.subreddit || null;
-	const stories = await fetchStories({ page, subreddit });
-	res.set('Vary', 'HX-Request');
-	res.render('partials/story_list', { stories, nextPage: page + 1, subreddit });
-});
+// Removed HTMX load-more endpoint; classic pagination is handled via query params on '/'
 
 module.exports = router;
 

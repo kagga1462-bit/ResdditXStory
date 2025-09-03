@@ -26,13 +26,20 @@
 		</div>
 	</header>
 
-	<main class="max-w-4xl mx-auto px-4 py-6">
+	<main class="max-w-6xl mx-auto px-4 py-6">
 		<!-- Top banner ad slot -->
 		<div class="mb-6">
-			<div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot</div>
+			<div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Top)</div>
 		</div>
 
-		<section aria-label="Stories list">
+		<section aria-label="Stories list" class="grid grid-cols-1 lg:grid-cols-[300px_1fr_300px] gap-6">
+			<!-- Left ads -->
+			<aside class="hidden lg:block space-y-4">
+				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Left 1)</div>
+				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Left 2)</div>
+			</aside>
+
+			<!-- Main list -->
 			<div id="story-list" class="space-y-4">
 				<% if (stories && stories.length) { %>
 					<% stories.forEach(story => { %>
@@ -43,21 +50,24 @@
 				<% } %>
 			</div>
 
-			<div id="load-more-wrapper" class="mt-6">
-				<button
-					class="px-4 py-2 rounded bg-gray-900 text-white disabled:opacity-50"
-					hx-get="/load-more-stories?page=<%= page + 1 %><% if (subreddit) { %>&subreddit=<%= subreddit %><% } %>"
-					hx-target="#story-list"
-					hx-swap="beforeend"
-				>
-					Load more
-				</button>
+			<!-- Right ads -->
+			<aside class="hidden lg:block space-y-4">
+				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Right 1)</div>
+				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Right 2)</div>
+			</aside>
+
+			<!-- Pagination -->
+			<div class="lg:col-start-2 mt-6 flex items-center justify-between">
+				<a class="px-4 py-2 border rounded bg-white disabled:opacity-50 <%= page <= 1 ? 'pointer-events-none opacity-50' : '' %>" href="/?page=<%= page - 1 %><% if (subreddit) { %>&subreddit=<%= subreddit %><% } %>">Prev</a>
+				<span class="text-sm text-gray-600">Page <%= page %></span>
+				<a class="px-4 py-2 border rounded bg-white <%= hasNext ? '' : 'pointer-events-none opacity-50' %>" href="/?page=<%= page + 1 %><% if (subreddit) { %>&subreddit=<%= subreddit %><% } %>">Next</a>
 			</div>
 		</section>
 	</main>
 
 	<footer class="border-t bg-white mt-10">
-		<div class="max-w-4xl mx-auto px-4 py-6 text-sm text-gray-600">
+		<div class="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-600">
+			<div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-500 mb-4">Ad slot (Bottom)</div>
 			<p>&copy; <%= new Date().getFullYear() %> <%= site.name %></p>
 		</div>
 	</footer>

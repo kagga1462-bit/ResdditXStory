@@ -2,7 +2,8 @@
 	<h2 class="text-lg font-semibold mb-2">
 		<a class="hover:underline" href="/story/<%= story.slug %>"><%= story.title %></a>
 	</h2>
-	<p class="text-sm text-gray-600 mb-3">r/<%= story.subreddit %> • <%= story.score %> points • <%= story.num_comments %> comments</p>
+	<!-- Meta hidden per request: subreddit, points, comments -->
+	<p class="text-xs text-gray-500 mb-3"><%= new Date(story.created_at).toLocaleString() %></p>
 	<p class="text-gray-700 line-clamp-3 overflow-hidden"><%= (story.content || '').slice(0, 240) %>...</p>
 </article>
 
