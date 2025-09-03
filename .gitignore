@@ -1,0 +1,12 @@
+.venv
+.env
+node_modules
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+reddit.txt

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Admin</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+	<header class="bg-white border-b">
+		<div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+			<h1 class="text-xl font-semibold">Admin</h1>
+			<form method="post" action="/admin/logout">
+				<button class="text-sm text-gray-600">Logout</button>
+			</form>
+		</div>
+	</header>
+	<main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+		<div class="bg-white border rounded p-4">
+			<p>Total stories: <span class="font-semibold"><%= totalStories %></span></p>
+		</div>
+		<div class="bg-white border rounded p-4">
+			<h2 class="font-semibold mb-2">Subreddits</h2>
+			<p class="text-sm text-gray-600">Current: <%= subs || '(unset, using .env SUBREDDITS)' %></p>
+			<a class="text-blue-600 underline" href="/admin/subreddits">Manage subreddits</a>
+		</div>
+		<div class="bg-white border rounded p-4">
+			<a class="text-blue-600 underline" href="/admin/stories">Manage stories</a>
+		</div>
+	</main>
+</body>
+</html>
+
+

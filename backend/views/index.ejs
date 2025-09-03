@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title><%= pageTitle %></title>
+	<meta name="description" content="<%= pageDescription %>" />
+	<meta property="og:title" content="<%= pageTitle %>" />
+	<meta property="og:description" content="<%= pageDescription %>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="<%= site.url %>" />
+	<link rel="canonical" href="<%= site.url %>" />
+
+	<script src="https://unpkg.com/htmx.org@1.9.12"></script>
+	<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<% if (site.adsenseClientId) { %>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= site.adsenseClientId %>" crossorigin="anonymous"></script>
+	<% } %>
+</head>
+<body class="bg-gray-50 text-gray-900">
+	<header class="border-b bg-white">
+		<div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+			<a class="text-xl font-bold" href="/"><%= site.name %></a>
+		</div>
+	</header>
+
+	<main class="max-w-4xl mx-auto px-4 py-6">
+		<!-- Top banner ad slot -->
+		<div class="mb-6">
+			<div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot</div>
+		</div>
+
+		<section aria-label="Stories list">
+			<div id="story-list" class="space-y-4">
+				<% if (stories && stories.length) { %>
+					<% stories.forEach(story => { %>
+						<%- include('partials/story_card', { story: story }) %>
+					<% }) %>
+				<% } else { %>
+					<p class="text-gray-600">No stories yet. Check back soon.</p>
+				<% } %>
+			</div>
+
+			<div id="load-more-wrapper" class="mt-6">
+				<button
+					class="px-4 py-2 rounded bg-gray-900 text-white disabled:opacity-50"
+					hx-get="/load-more-stories?page=<%= page + 1 %><% if (subreddit) { %>&subreddit=<%= subreddit %><% } %>"
+					hx-target="#story-list"
+					hx-swap="beforeend"
+				>
+					Load more
+				</button>
+			</div>
+		</section>
+	</main>
+
+	<footer class="border-t bg-white mt-10">
+		<div class="max-w-4xl mx-auto px-4 py-6 text-sm text-gray-600">
+			<p>&copy; <%= new Date().getFullYear() %> <%= site.name %></p>
+		</div>
+	</footer>
+</body>
+</html>
+
+

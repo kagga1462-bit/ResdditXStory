@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title><%= pageTitle %></title>
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+	<form method="post" action="/admin/login" class="bg-white shadow rounded p-6 w-full max-w-sm">
+		<h1 class="text-xl font-semibold mb-4">Admin Login</h1>
+		<% if (typeof error !== 'undefined') { %>
+			<p class="text-red-600 text-sm mb-3"><%= error %></p>
+		<% } %>
+		<label class="block text-sm mb-2">Email</label>
+		<input name="email" type="email" required class="w-full border rounded px-3 py-2 mb-4" />
+		<label class="block text-sm mb-2">Password</label>
+		<input name="password" type="password" required class="w-full border rounded px-3 py-2 mb-4" />
+		<button class="w-full bg-gray-900 text-white rounded py-2">Login</button>
+	</form>
+</body>
+</html>
+
+

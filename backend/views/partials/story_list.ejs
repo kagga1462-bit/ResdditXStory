@@ -1,0 +1,19 @@
+<% if (stories && stories.length) { %>
+	<% stories.forEach(story => { %>
+		<%- include('partials/story_card', { story: story }) %>
+	<% }) %>
+	<script>
+		// Swap the Load More button to request the next page
+		const btn = document.querySelector('#load-more-wrapper button');
+		if (btn) {
+			btn.setAttribute('hx-get', '/load-more-stories?page=<%= nextPage %><% if (subreddit) { %>&subreddit=<%= subreddit %><% } %>');
+		}
+	</script>
+<% } else { %>
+	<script>
+		const btn = document.querySelector('#load-more-wrapper button');
+		if (btn) { btn.disabled = true; btn.textContent = 'No more stories'; }
+	</script>
+<% } %>
+
+
