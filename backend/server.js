@@ -13,6 +13,8 @@ const compression = require('compression');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const cron = require('node-cron');
+const { spawn } = require('child_process');
 
 const app = express();
 
@@ -71,5 +73,19 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
 	console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Schedule scraper every 3 days at 03:00 server time
+// Cron: minute hour dom month dow => "0 3 */3 * *"
+try {
+	cron.schedule('0 3 */3 * *', () => {
+		const scriptPath = path.join(process.cwd(), 'scripts', 'scrape.sh');
+		const child = spawn('bash', [scriptPath], { stdio: 'inherit' });
+		child.on('exit', (code) => {
+			console.log(`[cron] scrape.sh finished with code ${code}`);
+		});
+	});
+} catch (e) {
+	console.error('Failed to schedule scraper:', e);
+}
 
 
