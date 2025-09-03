@@ -15,9 +15,7 @@
 	<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 	<script src="https://cdn.tailwindcss.com"></script>
 
-	<% if (site.adsenseClientId) { %>
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= site.adsenseClientId %>" crossorigin="anonymous"></script>
-	<% } %>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2158685438122632" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
 	<header class="border-b bg-white">
@@ -27,17 +25,10 @@
 	</header>
 
 	<main class="max-w-6xl mx-auto px-4 py-6">
-		<!-- Top banner ad slot -->
-		<div class="mb-6">
-			<div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Top)</div>
-		</div>
+
 
 		<section aria-label="Stories list" class="grid grid-cols-1 lg:grid-cols-[300px_1fr_300px] gap-6">
-			<!-- Left ads -->
-			<aside class="hidden lg:block space-y-4">
-				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Left 1)</div>
-				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Left 2)</div>
-			</aside>
+\
 
 			<!-- Main list -->
 			<div id="story-list" class="space-y-4">
@@ -50,11 +41,7 @@
 				<% } %>
 			</div>
 
-			<!-- Right ads -->
-			<aside class="hidden lg:block space-y-4">
-				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Right 1)</div>
-				<div class="w-full h-60 bg-gray-200 flex items-center justify-center text-gray-500">Ad slot (Right 2)</div>
-			</aside>
+
 
 			<!-- Pagination -->
 			<div class="lg:col-start-2 mt-6 flex items-center justify-between">
@@ -67,7 +54,6 @@
 
 	<footer class="border-t bg-white mt-10">
 		<div class="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-600">
-			<div class="w-full h-24 bg-gray-200 flex items-center justify-center text-gray-500 mb-4">Ad slot (Bottom)</div>
 			<p>&copy; <%= new Date().getFullYear() %> <%= site.name %></p>
 		</div>
 	</footer>
